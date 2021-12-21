@@ -17,8 +17,8 @@ namespace Ywt.Study.WebApi
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Environment { get; }
-        public IHostApplicationLifetime AppLifetime { get; }
+        //public IWebHostEnvironment Environment { get; }
+        //public IHostApplicationLifetime AppLifetime { get; }
 
         /// <summary>
         /// 构造函数依赖注入
@@ -26,11 +26,11 @@ namespace Ywt.Study.WebApi
         /// <param name="configuration"></param>
         /// <param name="environment"></param>
         /// <param name="appLifetime"></param>
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment, IHostApplicationLifetime appLifetime)
+        public Startup(IConfiguration configuration/*, IWebHostEnvironment environment, IHostApplicationLifetime appLifetime*/)
         {
             Configuration = configuration;
-            Environment = environment;
-            AppLifetime = appLifetime;
+            //Environment = environment;
+            //AppLifetime = appLifetime;
         }
 
         /// <summary>
