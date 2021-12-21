@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ywt.Study.WebApi", "Ywt.Study.WebApi\Ywt.Study.WebApi.csproj", "{25DF07B5-31D7-48B6-8F2E-B1C4A03E3998}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{25DF07B5-31D7-48B6-8F2E-B1C4A03E3998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25DF07B5-31D7-48B6-8F2E-B1C4A03E3998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25DF07B5-31D7-48B6-8F2E-B1C4A03E3998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25DF07B5-31D7-48B6-8F2E-B1C4A03E3998}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6FA1E19-1223-473A-BBE0-9C845381FAB1}
+	EndGlobalSection
+EndGlobal
