@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ywt.Study.EFCore;
 
 namespace Ywt.Study.EFCore.Migrations
 {
     [DbContext(typeof(StudyDbContext))]
-    partial class StudyContextModelSnapshot : ModelSnapshot
+    [Migration("20211227130917_InitialCreate2")]
+    partial class InitialCreate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,6 +28,9 @@ namespace Ywt.Study.EFCore.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Height")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")

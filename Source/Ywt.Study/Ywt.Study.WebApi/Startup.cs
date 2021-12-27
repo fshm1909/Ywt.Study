@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ywt.Study.EFCore;
 
 namespace Ywt.Study.WebApi
 {
@@ -40,6 +42,14 @@ namespace Ywt.Study.WebApi
         /// <param name="services">服务容器</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            //配置迁移程序集
+            //services.AddDbContext<StudyDbContext>(options =>
+            //options.UseSqlServer(
+            //   Configuration.GetConnectionString("DefaultConnection"),
+            //   x => x.MigrationsAssembly("Ywt.Study.EFCore.Migrations")
+            //   )
+            //);
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

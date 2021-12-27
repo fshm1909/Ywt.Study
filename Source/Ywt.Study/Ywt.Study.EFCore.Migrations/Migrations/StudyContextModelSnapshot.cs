@@ -28,6 +28,9 @@ namespace Ywt.Study.EFCore.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
