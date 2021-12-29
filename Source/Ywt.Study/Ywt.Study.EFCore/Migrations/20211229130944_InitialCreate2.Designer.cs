@@ -9,8 +9,8 @@ using Ywt.Study.EFCore;
 namespace Ywt.Study.EFCore.Migrations
 {
     [DbContext(typeof(StudyDbContext))]
-    [Migration("20211228143143_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20211229130944_InitialCreate2")]
+    partial class InitialCreate2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,6 +19,27 @@ namespace Ywt.Study.EFCore.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Ywt.Study.EFCore.Goods", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Goods");
+                });
 
             modelBuilder.Entity("Ywt.Study.EFCore.Person", b =>
                 {
@@ -48,6 +69,21 @@ namespace Ywt.Study.EFCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Person");
+
+                    b
+                        .HasComment("人员表");
+                });
+
+            modelBuilder.Entity("Ywt.Study.EFCore.TestA", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TestA");
                 });
 #pragma warning restore 612, 618
         }

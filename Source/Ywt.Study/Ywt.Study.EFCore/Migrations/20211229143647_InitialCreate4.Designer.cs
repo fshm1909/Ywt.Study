@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ywt.Study.EFCore;
 
 namespace Ywt.Study.EFCore.Migrations
 {
     [DbContext(typeof(StudyDbContext))]
-    partial class StudyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211229143647_InitialCreate4")]
+    partial class InitialCreate4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,6 +70,9 @@ namespace Ywt.Study.EFCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Person");
+
+                    b
+                        .HasComment("人员表");
                 });
 
             modelBuilder.Entity("Ywt.Study.EFCore.TestA", b =>
@@ -78,12 +83,10 @@ namespace Ywt.Study.EFCore.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Field10")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Field11")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("这是一个测试列");
+                    b.Property<int?>("Field11")
+                        .HasColumnType("int");
 
                     b.Property<string>("Field12")
                         .HasColumnType("nvarchar(max)");
@@ -133,36 +136,6 @@ namespace Ywt.Study.EFCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TestA");
-
-                    b
-                        .HasComment("测试表A");
-                });
-
-            modelBuilder.Entity("Ywt.Study.EFCore.TestB", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Field")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Field2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Field3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Field4")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Field5")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TestB");
                 });
 #pragma warning restore 612, 618
         }
