@@ -8,7 +8,7 @@ using Ywt.Study.EFCore;
 namespace Ywt.Study.EFCore.Migrations
 {
     [DbContext(typeof(StudyDbContext))]
-    partial class StudyContextModelSnapshot : ModelSnapshot
+    partial class StudyDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -28,14 +28,20 @@ namespace Ywt.Study.EFCore.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
+                    b.Property<double>("Height")
+                        .HasColumnType("float");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("state")
+                        .HasColumnType("int");
+
+                    b.Property<double>("weight")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

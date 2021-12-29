@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ywt.Study.EFCore.Migrations\Ywt.Study.EFCore.Migrations.csproj" />
+    <ProjectReference Include="..\Ywt.Study.EFCore.Scaffold\Ywt.Study.EFCore.Scaffold.csproj" />
     <ProjectReference Include="..\Ywt.Study.EFCore\Ywt.Study.EFCore.csproj" />
   </ItemGroup>
 

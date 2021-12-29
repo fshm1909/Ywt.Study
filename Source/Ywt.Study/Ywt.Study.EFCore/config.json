@@ -1,4 +1,4 @@
 {
   "ConnectionStrings1": "server=.;database=YwtStudy;uid=sa;pwd=ywt133447",
-  "ConnectionStrings2": ""
+  "ConnectionStrings2": "server=.;database=YwtStudy2;uid=sa;pwd=ywt133447"
 }

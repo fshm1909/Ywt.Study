@@ -1,0 +1,135 @@
+﻿【通用参数】
+参数	说明
+-Context <String>	要使用的 DbContext 类。 仅类名或完全限定命名的空间。 如果省略此参数，EF Core 将查找上下文类。 如果有多个上下文类，则此参数是必需的。
+-Project <String>	目标项目。 如果省略此参数，则包管理器控制台的默认项目将用作目标项目。
+-StartupProject <String>	启动项目。 如果省略此参数，则解决方案属性中的启动项目将用作目标项目。
+-Args <String>	传递给应用程序的参数。 已在 EF Core 5.0 中添加。
+-Verbose	显示详细输出。
+
+测试结果：如果没有现有迁移，请在包含 DbContext 的项目中生成一个迁移，然后移动它。 这一点很重要，因为如果迁移项目不包含现有迁移，Add-Migration 命令将无法找到 DbContext。
+Add-Migration InitialCreate2 -Project Ywt.Study.EFCore.Migrations
+
+Add-Migration InitialCreate2 -Context StudyContext2 -Project Ywt.Study.EFCore.Migrations
+
+1.Add-Migration：
+说明：添加迁移
+-Name <String>	迁移的名称。 这是一个位置参数，并且是必需的。
+-OutputDir <String>	用于输出文件的目录。 路径相对于目标项目目录。 默认路径为“Migrations”。
+-Namespace <String>	要用于生成的类的命名空间。 默认为从输出目录生成的命名空间。 已在 EF Core 5.0 中添加。
+
+Add-Migration InitialCreate2
+Add-Migration -name InitialCreate2
+Add-Migration -name InitialCreate2 -OutputDir Migrations2
+Add-Migration -name InitialCreate2 -OutputDir Migrations2 -Namespace Ywt.Study.EFCore.Migration2
+
+
+2.Bundle-Migration:（6.0版本）
+说明：可以手动移动 Migrations 文件并更改其命名空间。 新建的迁移和上个迁移同级（不可同名）。 或者，你可以在生成时指定目录
+-Output <String>	要创建的可执行文件的路径。
+-Force	覆盖现有文件。
+-SelfContained	同时绑定 .NET 运行时，因此不需要在计算机上安装它。
+-TargetRuntime <String>	要绑定的目标运行时。
+-Framework <String>	目标框架。 默认为项目中的第一个。
+
+Bundle-Migration -Output Bundle
+
+
+3.Remove-Migration
+说明：删除上次迁移（回退为迁移所做的代码更改）。
+-Force	还原迁移（回退应用到数据库的更改）。
+
+测试结果：没有还原到和数据库一个版本
+Remove-Migration -Force
+
+
+4.Get-Migration
+说明：列出可用的迁移。
+-Connection <String>	用于连接到数据库的连接字符串。 默认为 AddDbContext 或 OnConfiguring 中指定的值。
+-NoConnect	不要连接到数据库。
+
+测试结果：使用默认的连接字符串
+Get-Migration 
+
+测试结果：连接指定数据库来查看现有迁移是否已经应用了，applied字段判断。错误的字符串，applied字段都是false
+Get-Migration -Connection 'server=.;database=YwtStudy;uid=sa;pwd=ywt133447'
+Get-Migration -Connection 'server=.;database=YwtStudy2;uid=sa;pwd=ywt133447'
+
+测试结果：使用NoConnect后applied字段没有值
+Get-Migration -Connection 'server=.;database=YwtStudy;uid=sa;pwd=ywt133447' -NoConnect
+
+
+5.Script-Migration
+说明：生成一个 SQL 脚本，该脚本将所有更改从一个选定的迁移应用到另一个选定的迁移。
+-From <String>	初始迁移。 可以按名称或 ID 识别迁移。 数字 0 是一种特殊情况，表示首次迁移之前。 默认值为 0。
+-To <String>	结束迁移。 默认为上一次迁移。
+-Idempotent	生成可在任何迁移时用于数据库的脚本。
+-NoTransactions	不要生成 SQL 事务语句。 已在 EF Core 5.0 中添加。
+-Output <String>	要向其写入结果的文件。 如果省略此参数，则使用创建应用运行时文件的同一文件夹中的生成名称创建文件，例如 /obj/Debug/netcoreapp2.1/ghbkztfz.sql/。
+
+Script-Migration -Output 'Ywt.Study.EFCore/Sql/Migration.sql'
+Script-Migration -Output 'Ywt.Study.EFCore/Sql/Migration.sql' -Idempotent
+Script-Migration -Output 'Ywt.Study.EFCore/Sql/Migration.sql' -NoTransactions
+Script-Migration -Output 'Ywt.Study.EFCore/Sql/Migration.sql' -From InitialCreate2 -To InitialCreate3
+
+【幂等迁移】：此类脚本将在内部检查已经应用哪些迁移（通过迁移历史记录表），并且只应用缺少的迁移。查询__EFMigrationsHistory表来判断是否应用了迁移
+Script-Migration -Output 'Ywt.Study.EFCore/Sql/Migration.sql' -Idempotent
+
+简写：
+Script-Migration -Output 'Ywt.Study.EFCore/Sql/Migration.sql' InitialCreate2 InitialCreate3
+
+【可以使用比 to 新的 from 来生成回退脚本。】
+Script-Migration -Output 'Ywt.Study.EFCore/Sql/Migration.sql' InitialCreate3 InitialCreate2
+
+
+6.Update-Database
+说明：将数据库更新到上次迁移或指定的迁移。
+-Migration <String>	目标迁移。 可以按名称或 ID 识别迁移。 数字 0 是一种特殊情况，表示首次迁移之前并会还原所有迁移。 如果未指定迁移，该命令默认还原到上一次迁移。
+-Connection <String>
+
+迁移名称和迁移ID（同一个文件）
+Update-Database -Migration InitialCreate2
+Update-Database -Migration 20211228121146_InitialCreate2
+
+指定旧的迁移效果类似还原
+Update-Database -Migration InitialCreate2
+Update-Database -Migration InitialCreate3
+
+不同的连接字符串迁移不同的数据库
+Update-Database -Migration InitialCreate -Connection 'server=.;database=YwtStudy2;uid=sa;pwd=ywt133447'
+Update-Database -Migration InitialCreate -Connection 'server=.;database=YwtStudy3;uid=sa;pwd=ywt133447'
+Update-Database -Migration InitialCreate -Connection 'server=.;database=YwtStudy4;uid=sa;pwd=ywt133447'
+
+
+7.Get-DbContext
+说明：列出并获取有关可用 DbContext 类型的信息。
+
+8.Optimize-DbContext
+说明：生成 DbContext 使用的模型的已编译版本。 已在 EF Core 6 中添加。
+-OutputDir <String>	要在其中放置文件的目录。 路径相对于项目目录。
+-Namespace <String>	要用于所有生成的类的命名空间。 默认设置为从根命名空间和输出目录以及 CompiledModels 生成。
+
+
+
+9.Scaffold-DbContext
+说明：为 DbContext 生成代码，并为数据库生成实体类型。 为了让 Scaffold-DbContext 生成实体类型，数据库表必须具有主键。
+-Connection <String>	用于连接到数据库的连接字符串。 对于 ASP.NET Core 2.x 项目，值可以是 name=name of connection string>。 在这种情况下，名称来自为项目设置的配置源。 这是一个位置参数，并且是必需的。
+-Provider <String>	要使用的提供程序。 通常，这是 NuGet 包的名称，例如：Microsoft.EntityFrameworkCore.SqlServer。 这是一个位置参数，并且是必需的。
+-OutputDir <String>	要在其中放置实体类文件的目录。 路径相对于项目目录。
+-ContextDir <String>	要在其中放置 DbContext 文件的目录。 路径相对于项目目录。
+-Namespace <String>	要用于所有生成的类的命名空间。 默认设置为从根命名空间和输出目录生成。 已在 EF Core 5.0 中添加。
+-ContextNamespace <String>	要用于生成的 DbContext 类的命名空间。 注意：重写 -Namespace。 已在 EF Core 5.0 中添加。
+-Context <String>	要生成的 DbContext 类的名称。
+-Schemas <String[]>	要为其生成实体类型的表的架构。 如果省略此参数，则包含所有架构。
+-Tables <String[]>	要为其生成实体类型的表。 如果省略此参数，则包含所有表。
+-DataAnnotations	使用属性配置模型（如果可能）。 如果省略此参数，则仅使用 Fluent API。
+-UseDatabaseNames	使用与数据库中显示的名称完全相同的表和列名。 如果省略此参数，数据库名称将更改为更符合 C# 名称样式约定。
+-Force	覆盖现有文件。
+-NoOnConfiguring	不生成 DbContext.OnConfiguring。 已在 EF Core 5.0 中添加。
+-NoPluralize	请勿使用复数化程序。 已在 EF Core 5.0 中添加。
+
+Scaffold-DbContext -Project 'Ywt.Study.EFCore.Scaffold' -Connection 'server=.;database=YwtStudy;uid=sa;pwd=ywt133447' -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir 'Model' -ContextDir 'DbContext'
+
+10.Script-DbContext
+说明：从 DbContext 生成 SQL 脚本。 绕过任何迁移。
+-Output <String>	要向其写入结果的文件。
+Script-DbContext -Output 'Ywt.Study.EFCore/Sql/DbContext.sql'

@@ -9,7 +9,7 @@ using Ywt.Study.EFCore;
 namespace Ywt.Study.EFCore.Migrations
 {
     [DbContext(typeof(StudyDbContext))]
-    [Migration("20211222035128_InitialCreate")]
+    [Migration("20211228120613_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,11 +30,17 @@ namespace Ywt.Study.EFCore.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<double>("Height")
+                        .HasColumnType("float");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("weight")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
