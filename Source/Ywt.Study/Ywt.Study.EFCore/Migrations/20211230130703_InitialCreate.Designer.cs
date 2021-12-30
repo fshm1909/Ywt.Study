@@ -10,8 +10,8 @@ using Ywt.Study.EFCore;
 namespace Ywt.Study.EFCore.Migrations
 {
     [DbContext(typeof(StudyDbContext))]
-    [Migration("20211229144747_InitialCreate5")]
-    partial class InitialCreate5
+    [Migration("20211230130703_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,20 +91,38 @@ namespace Ywt.Study.EFCore.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Field13")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("默认值");
 
-                    b.Property<string>("Field14")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("Field14")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<string>("Field15")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComputedColumnSql("[Field12] + ', ' + [Field13]");
 
                     b.Property<string>("Field16")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Field17")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Field18")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Field19")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Field2")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Field2_1");
+
+                    b.Property<string>("Field20")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Field3")
                         .HasColumnType("varchar(200)");
@@ -132,12 +150,66 @@ namespace Ywt.Study.EFCore.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PK_TestA");
 
                     b.ToTable("TestA");
 
                     b
                         .HasComment("测试表A");
+                });
+
+            modelBuilder.Entity("Ywt.Study.EFCore.TestB", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Field")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Field2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Field3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Field4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Field5")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TestB");
+                });
+
+            modelBuilder.Entity("Ywt.Study.EFCore.TestC", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Field")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Field2")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Field3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("InsertTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TestC");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Ywt.Study.EFCore
 {
@@ -9,6 +10,8 @@ namespace Ywt.Study.EFCore
         public DbSet<Goods> Goods { get; set; }
         public DbSet<TestA> TestA { get; set; }
         public DbSet<TestB> TestB { get; set; }
+        public DbSet<TestC> TestC { get; set; }
+        public DbSet<TestD> TestD { get; set; }
 
         /// <summary>
         /// 数据库连接字符串
@@ -60,6 +63,7 @@ namespace Ywt.Study.EFCore
 
             #endregion
 
+            #region 实体类型
 
             //从模型中排除类型（数据注释使用[NotMapped]）
             //modelBuilder.Ignore<Person>();
@@ -77,6 +81,10 @@ namespace Ywt.Study.EFCore
 
             //表注释(SQL:select value from sys.extended_properties where major_id = object_id('Person');)
             modelBuilder.Entity<TestA>().HasComment("测试表A");
+
+            #endregion
+
+            #region 实体属性
 
             //按照约定，所有具有 Getter 和 Setter 的公共属性都将包含在模型中。
             //可以按如下所示排除特定属性（数据注释使用[NotMapped]）
@@ -118,7 +126,52 @@ namespace Ywt.Study.EFCore
             //    tb.Property(b => b.Field12).HasColumnOrder(1);
             //});
 
+            #endregion
 
+            #region 键
+
+            //配置主键;根据约定(默认)，名为 Id 或 <type name>Id 的属性将被配置为实体的主键。
+            modelBuilder.Entity<TestA>().HasKey(b => new { b.Id });
+
+            //主键名称
+            modelBuilder.Entity<TestA>().HasKey(b => new { b.Id }).HasName("PK_TestA");
+
+            #endregion
+
+            #region 生成的值
+
+            //默认值
+            modelBuilder.Entity<TestA>().Property(b => b.Field13).HasDefaultValue("默认值");
+            modelBuilder.Entity<TestA>().Property(b => b.Field14).HasDefaultValueSql("getdate()");
+
+            //计算列
+            modelBuilder.Entity<TestA>().Property(b => b.Field15).HasComputedColumnSql("[Field12] + ', ' + [Field13]");
+            //modelBuilder.Entity<TestA>().Property(b => b.Field15).HasComputedColumnSql("LEN([Field12]) + LEN([Field13])", stored: true);
+
+            //显式配置值生成
+            //modelBuilder.Entity<TestC>().Property(b => b.Field).ValueGeneratedOnAdd();
+            //modelBuilder.Entity<TestC>().Property(b => b.Field2).ValueGeneratedOnAddOrUpdate();
+            //modelBuilder.Entity<TestC>().Property(b => b.Field3).ValueGeneratedNever();
+
+            #endregion
+
+            #region 阴影属性和索引器属性
+
+            //配置阴影属性(模型类中没有定义的，但数据表中存在的属性——即模型类与数据表中没有对应关系的属性。)
+            modelBuilder.Entity<TestD>().Property<DateTime>("InsertTime");
+
+            //配置索引器属性
+            modelBuilder.Entity<TestE>().IndexerProperty<DateTime>("InsertTime");
+
+            #endregion
+
+            #region 关系
+
+            modelBuilder.Entity<Test1>().HasMany(tb1 => tb1.Test2s).WithOne(tb2 => tb2.Test1).HasForeignKey(tb2 => tb2.Test1Id);
+
+            //modelBuilder.Entity<Test1>().HasMany(tb1 => tb1.Test2s).WithOne(tb2 => tb2.Test1)
+            //modelBuilder.Entity<Test1>().HasData();
+            #endregion
         }
 
     }
