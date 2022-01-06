@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ywt.Study.EFCore;
 
 namespace Ywt.Study.EFCore.Migrations
 {
     [DbContext(typeof(StudyDbContext))]
-    partial class StudyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220106135346_InitialCreate7")]
+    partial class InitialCreate7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,9 +107,6 @@ namespace Ywt.Study.EFCore.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("R1Id")
-                        .IsUnique();
 
                     b.ToTable("R2");
                 });
@@ -326,17 +325,6 @@ namespace Ywt.Study.EFCore.Migrations
                     b.ToTable("TestE");
                 });
 
-            modelBuilder.Entity("Ywt.Study.EFCore.R2", b =>
-                {
-                    b.HasOne("Ywt.Study.EFCore.R1", "r1s")
-                        .WithOne("r2s")
-                        .HasForeignKey("Ywt.Study.EFCore.R2", "R1Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("r1s");
-                });
-
             modelBuilder.Entity("Ywt.Study.EFCore.Test2", b =>
                 {
                     b.HasOne("Ywt.Study.EFCore.Test1", "Test1")
@@ -346,11 +334,6 @@ namespace Ywt.Study.EFCore.Migrations
                         .IsRequired();
 
                     b.Navigation("Test1");
-                });
-
-            modelBuilder.Entity("Ywt.Study.EFCore.R1", b =>
-                {
-                    b.Navigation("r2s");
                 });
 
             modelBuilder.Entity("Ywt.Study.EFCore.Test1", b =>

@@ -13,6 +13,10 @@ namespace Ywt.Study.EFCore
         public DbSet<TestC> TestC { get; set; }
         public DbSet<TestD> TestD { get; set; }
 
+
+        public DbSet<R1> R1 { get; set; }
+        public DbSet<R2> R2 { get; set; }
+
         /// <summary>
         /// 数据库连接字符串
         /// </summary>
