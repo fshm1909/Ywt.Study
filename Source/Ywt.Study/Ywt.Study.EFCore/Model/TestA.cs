@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ywt.Study.EFCore
 {
-    //[Table("TestA")]/*表名称，默认使用类名*/
+    [Table("TestA")]/*表名称，默认使用类名*/
     //[Table("TestA", Schema = "Schema")]/*表架构*/
     //[NotMapped]/*从模型中排除类型*/
     [Comment("测试表A")]

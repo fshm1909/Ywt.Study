@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -25,36 +26,14 @@ namespace Ywt.Study.WebApi
         /// <summary>
         /// 构造函数依赖注入
         /// </summary>
-        /// <param name="configuration"></param>
-        /// <param name="environment"></param>
-        /// <param name="appLifetime"></param>
+        /// <param name="configuration">表示一组键/值应用程序配置属性。</param>
+        /// <param name="environment">主机环境设置</param>
+        /// <param name="appLifetime">主机应用程序生存期</param>
         public Startup(IConfiguration configuration/*, IWebHostEnvironment environment, IHostApplicationLifetime appLifetime*/)
         {
             Configuration = configuration;
             //Environment = environment;
             //AppLifetime = appLifetime;
-        }
-
-        /// <summary>
-        /// （可选）
-        /// 配置应用的服务（注册服务，并通过依赖关系注入 (DI) 或 ApplicationServices 在整个应用中使用服务。）
-        /// </summary>
-        /// <param name="services">服务容器</param>
-        public void ConfigureServices(IServiceCollection services)
-        {
-            //配置迁移程序集
-            //services.AddDbContext<StudyDbContext>(options =>
-            //options.UseSqlServer(
-            //   Configuration.GetConnectionString("DefaultConnection"),
-            //   x => x.MigrationsAssembly("Ywt.Study.EFCore.Migrations")
-            //   )
-            //);
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ywt.Study.WebApi", Version = "v1" });
-            });
         }
 
         /// <summary>
@@ -94,6 +73,47 @@ namespace Ywt.Study.WebApi
             {
                 endpoints.MapControllers();
             });
+        }
+
+        /// <summary>
+        /// （可选）
+        /// 配置应用的服务（注册服务，并通过依赖关系注入 (DI) 或 ApplicationServices 在整个应用中使用服务。）
+        /// </summary>
+        /// <param name="services">服务容器</param>
+        public void ConfigureServices(IServiceCollection services)
+        {
+            //IServiceCollection 是 ServiceDescriptor 对象的集合
+            //var descriptor = new ServiceDescriptor(typeof(IService), _ => new Service(), ServiceLifetime.Transient);
+            //services.Add(descriptor);
+
+            //注册不同类型的服务(内部调用services.Add(descriptor)方法)
+            //services.AddTransient<IService, Service>();//注册[暂时]服务
+            //services.AddScoped<IService, Service>();//注册[范围内]服务
+            //services.AddSingleton<IService, Service>();//注册[单一实例]服务
+
+            //只有当尚未注册某个实现时，才注册该服务
+            //services.TryAddTransient<IService, Service>();//注册[暂时]服务
+            //services.TryAddScoped<IService, Service>();//注册[范围内]服务
+            //services.TryAddSingleton<IService, Service>();//注册[单一实例]服务
+
+
+            //配置迁移程序集
+            //services.AddDbContext<StudyDbContext>(options =>
+            //options.UseSqlServer(
+            //   Configuration.GetConnectionString("DefaultConnection"),
+            //   x => x.MigrationsAssembly("Ywt.Study.EFCore.Migrations")
+            //   )
+            //);
+
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ywt.Study.WebApi", Version = "v1" });
+            });
+
+            //注册自定义筛选器
+            services.AddTransient<IStartupFilter, WebApiStartupFilter>();//注册[暂时]服务
+
         }
     }
 }
